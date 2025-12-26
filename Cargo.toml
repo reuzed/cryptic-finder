@@ -1,0 +1,10 @@
+[package]
+name = "cryptic-finder"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+kalosm-language-model = "0.4.1"
+rbert = "0.4.0"
+anyhow = "1.0.100"
