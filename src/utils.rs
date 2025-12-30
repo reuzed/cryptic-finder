@@ -1,5 +1,10 @@
 use std::{cmp::{max_by, min_by}, collections::HashMap, fmt};
 
+pub fn normalise(s: &str) -> String {
+    // Decapitalise and remove spaces 
+    s.chars().filter(|&c| c != ' ').map(|c| c.to_ascii_lowercase()).collect()
+}
+
 pub fn reverse(s: &str) -> String {
     s.chars().rev().collect()
 }

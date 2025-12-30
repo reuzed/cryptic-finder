@@ -1,5 +1,6 @@
-use std::{collections::HashMap, fs::{self, File}, io::Write};
+use std::{collections::{HashMap, HashSet}, fs::{self, File}, io::Write};
 
+use csv::ReaderBuilder;
 use rusqlite::{Connection, Result};
 
 fn read_file(filename: &str) -> Vec<String>{
@@ -40,24 +41,6 @@ pub fn read_word_frequencies() -> HashMap<String, u64>{
     wfs
 }
 
-// actually maturin works better with uv, it has some kind of integration, so:
-// 1. Install uv
-// 2. uv venv .venv
-// 3. activate your venv (shell specific)
-// 4. uv pip install maturin
-
-// Then manually instanciating the cargo project can be avoided, just use:
-
-// - maturin new project_name
-
-// A cli will ask you what kind of project you want to init, choose pyo3, that's it.
-
-// With this setup you don't even have to manually wire the pyfunction to the pymodule, you just define it inside a rust module with the pymodule proc macro.
-
-// You also got rust doc strings embedded in your python code, so every doc string you normally make on rust pyfunction will be displayed on hover from your intellisense in the python side and also no more "unresolved library import".
-
-// One last thing, you can also define the signature to be shown for python with some attribute macro.
-
 fn preprocess_word_frequencies_db() -> HashMap<String, HashMap<String, u64>>{
     // Separate words into frequency buckets and save to json, printing a report.
     let wfs: HashMap<String, u64> = read_word_frequencies();
@@ -92,4 +75,34 @@ pub fn load_word_frequencies() -> HashMap<String, HashMap<String, u64>>{
     let wfs_by_rarity: HashMap<String, HashMap<String, u64>> = serde_json::from_str(&wfs_json).unwrap();
 
     wfs_by_rarity 
+}
+
+fn read_csv(filename: &str, col: usize) -> Vec<String> {
+    let mut rdr = ReaderBuilder::new().from_path(filename).unwrap();
+    let mut result = Vec::new();
+    for record in rdr.records(){
+        match &record {
+            Ok(_) => (),
+            Err(_) => continue,
+        }
+        let record = record.unwrap();
+        let value = record.get(col);
+        match value {
+            Some(value) => result.push(value.to_string()),
+            None => ()
+        }
+    }
+    return result;
+}
+
+pub fn read_tube_stations() -> Vec<String> {
+    read_csv("Stations_2022.csv", 1)
+}
+
+pub fn read_counties() -> Vec<String> {
+    read_csv("uk-counties-list.csv", 1)
+}
+
+pub fn read_places() -> Vec<String> {
+    read_csv("IPN_GB_2024/IPN_GB_2024.csv", 1)
 }
