@@ -1,8 +1,15 @@
-use std::{cmp::{max_by, min_by}, collections::HashMap, fmt};
+use std::{
+    cmp::{max_by, min_by},
+    collections::HashMap,
+    fmt,
+};
 
 pub fn normalise(s: &str) -> String {
-    // Decapitalise and remove spaces 
-    s.chars().filter(|&c| c != ' ').map(|c| c.to_ascii_lowercase()).collect()
+    // Decapitalise and remove spaces
+    s.chars()
+        .filter(|&c| c != ' ')
+        .map(|c| c.to_ascii_lowercase())
+        .collect()
 }
 
 pub fn reverse(s: &str) -> String {
@@ -26,12 +33,11 @@ pub fn lex_order(s1: &str, s2: &str) -> bool {
     return shorter == s1;
 }
 
-
 pub struct WordDecomposition {
-    parts: Vec<String>
+    parts: Vec<String>,
 }
 impl fmt::Debug for WordDecomposition {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let out = self.parts.join("|");
         write!(f, "\n {}", out)
     }
@@ -41,10 +47,11 @@ pub fn word_decompose(s: &str, is_word: &dyn Fn(&str) -> bool) -> Vec<WordDecomp
     // determine whether 's' can be decomposed into multiple words
     // do dfs, checking word set membership
     let mut decompositions: Vec<WordDecomposition> = {
-        if is_word(s){
-            vec![WordDecomposition{parts: vec![s.to_string()]}]
-        }
-        else{
+        if is_word(s) {
+            vec![WordDecomposition {
+                parts: vec![s.to_string()],
+            }]
+        } else {
             vec![]
         }
     };
@@ -56,7 +63,7 @@ pub fn word_decompose(s: &str, is_word: &dyn Fn(&str) -> bool) -> Vec<WordDecomp
         }
         let sub_decomps = word_decompose(s2, is_word);
         let mut new_decomps: Vec<WordDecomposition> = Vec::new();
-        for sd in sub_decomps.iter(){
+        for sd in sub_decomps.iter() {
             let mut parts = sd.parts.clone();
             parts.insert(0, s1.to_string());
             new_decomps.push(WordDecomposition { parts });
@@ -95,7 +102,7 @@ pub fn scrabble_score(w: &str) -> u32 {
         ('Y', 4),
         ('Z', 10),
     ]);
-    w.chars().map(|c| scrabble_values.get(&c.to_ascii_uppercase()).unwrap()).sum()
+    w.chars()
+        .map(|c| scrabble_values.get(&c.to_ascii_uppercase()).unwrap())
+        .sum()
 }
-
-

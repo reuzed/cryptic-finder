@@ -1,6 +1,12 @@
 // use std::collections::HashSet;
 
-use cryptic_finder::{data::{load_word_frequencies, read_counties, read_places, read_tube_stations, read_word_frequencies, read_words, save_word_frequencies}, utils::{lex_order, reverse}};
+use cryptic_finder::{
+    data::{
+        load_word_frequencies, read_counties, read_places, read_tube_stations,
+        read_word_frequencies, read_words, save_word_frequencies,
+    },
+    utils::{lex_order, reverse},
+};
 
 // Find the common cryptic wordplays from various data sources:
 // - anagram
@@ -10,7 +16,7 @@ use cryptic_finder::{data::{load_word_frequencies, read_counties, read_places, r
 
 // - tube stations
 
-fn main(){
+fn main() {
     // let wfs = read_word_frequencies();
     // println!("wfs: {:?}", wfs)
     // let wfs = load_word_frequencies();
@@ -24,4 +30,3 @@ fn main(){
     println!("{:?}", &places[..10]);
     println!("{:?}", &counties[..10]);
 }
-
