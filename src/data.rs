@@ -1,4 +1,4 @@
-use std::{collections::{HashMap, HashSet}, fs::{self, File}, io::Write};
+use std::{collections::{HashMap}, fs::{self, File}, io::Write};
 
 use csv::ReaderBuilder;
 use rusqlite::{Connection, Result};
@@ -9,7 +9,7 @@ fn read_file(filename: &str) -> Vec<String>{
 }
 
 pub fn read_words() -> Vec<String>{
-    read_file("words_alpha.txt")
+    read_file("data/words_alpha.txt")
 }
 
 struct WordRow {
@@ -18,7 +18,7 @@ struct WordRow {
 }
 
 fn sqlite_select_words(table: usize) -> Result<Vec<WordRow>>{
-    let conn = Connection::open("words.db")?;
+    let conn = Connection::open("data/words.db")?;
 
     let mut stmt = conn.prepare(&format!("SELECT word_T, frequency_I FROM '{table}'"))?;
 
@@ -64,13 +64,13 @@ fn preprocess_word_frequencies_db() -> HashMap<String, HashMap<String, u64>>{
 pub fn save_word_frequencies(){
     let wfs_by_rarity: HashMap<String, HashMap<String, u64>> = preprocess_word_frequencies_db();
     let wfs_json = serde_json::to_string(&wfs_by_rarity).unwrap();
-    let mut file = File::create("wfs_by_rarity.json").unwrap();
+    let mut file = File::create("data/wfs_by_rarity.json").unwrap();
 
     let _ = file.write_all(wfs_json.as_bytes());
 }
 
 pub fn load_word_frequencies() -> HashMap<String, HashMap<String, u64>>{
-    let wfs_json = fs::read_to_string("wfs_by_rarity").unwrap();
+    let wfs_json = fs::read_to_string("data/wfs_by_rarity.json").unwrap();
 
     let wfs_by_rarity: HashMap<String, HashMap<String, u64>> = serde_json::from_str(&wfs_json).unwrap();
 
@@ -96,13 +96,13 @@ fn read_csv(filename: &str, col: usize) -> Vec<String> {
 }
 
 pub fn read_tube_stations() -> Vec<String> {
-    read_csv("Stations_2022.csv", 1)
+    read_csv("data/Stations_2022.csv", 1)
 }
 
 pub fn read_counties() -> Vec<String> {
-    read_csv("uk-counties-list.csv", 1)
+    read_csv("data/uk-counties-list.csv", 1)
 }
 
 pub fn read_places() -> Vec<String> {
-    read_csv("IPN_GB_2024/IPN_GB_2024.csv", 1)
+    read_csv("data/IPN_GB_2024/IPN_GB_2024.csv", 1)
 }
