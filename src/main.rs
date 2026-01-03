@@ -4,7 +4,9 @@ use cryptic_finder::{
     data::{
         load_word_frequencies, read_counties, read_places, read_tube_stations,
         read_word_frequencies, read_words, save_word_frequencies,
-    }, examples::maximally_anagrammed_by_length, utils::{lex_order, reverse}
+    },
+    examples::maximally_anagrammed_by_length,
+    utils::{lex_order, reverse},
 };
 
 // Find the common cryptic wordplays from various data sources:

@@ -2,7 +2,8 @@ use std::collections::HashSet;
 
 use crate::{
     data::read_words,
-    utils::{lex_order, reverse, word_decompose}, wordplay::find_anagrams,
+    utils::{lex_order, reverse, word_decompose},
+    wordplay::find_anagrams,
 };
 
 fn _palin_rev() {
@@ -48,25 +49,29 @@ fn _decomps() {
     }
 }
 
-pub fn maximally_anagrammed_by_length(){
+pub fn maximally_anagrammed_by_length() {
     // Find the words which have most anagrams of each length
     let words = read_words();
     let anagrams = find_anagrams(&words, &words);
-    let lengths: HashSet<usize> = anagrams.iter().map(
-        |a| (&a.fodder).chars().count()
-    ).collect();
+    let lengths: HashSet<usize> = anagrams
+        .iter()
+        .map(|a| (&a.fodder).chars().count())
+        .collect();
     let mut lengths: Vec<_> = lengths.iter().collect();
     lengths.sort();
-    for &&length in lengths.iter(){
-        let mut anagrams: Vec<_> = anagrams.iter().filter(|&a| (&a.fodder).chars().count() == length).collect();
+    for &&length in lengths.iter() {
+        let mut anagrams: Vec<_> = anagrams
+            .iter()
+            .filter(|&a| (&a.fodder).chars().count() == length)
+            .collect();
         anagrams.sort_by(|&a, &b| (b.anagrams.len()).cmp(&a.anagrams.len()));
         let anagrams: Vec<_> = anagrams.iter().take(1).collect();
         println!("Length {}", length);
-        for anagram in anagrams.iter(){
+        for anagram in anagrams.iter() {
             println!("Fodder: {}", anagram.fodder);
-            for target in &anagram.unique_anagrams(){
+            for target in &anagram.unique_anagrams() {
                 println!("- {}", target);
-            } 
+            }
         }
     }
 }
