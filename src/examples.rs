@@ -49,9 +49,8 @@ fn _decomps() {
     }
 }
 
-pub fn maximally_anagrammed_by_length() {
+pub fn maximally_anagrammed_by_length(words: Vec<String>) {
     // Find the words which have most anagrams of each length
-    let words = read_words();
     let anagrams = find_anagrams(&words, &words);
     let lengths: HashSet<usize> = anagrams
         .iter()

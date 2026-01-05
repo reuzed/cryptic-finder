@@ -2,8 +2,7 @@
 
 use cryptic_finder::{
     data::{
-        load_word_frequencies, read_counties, read_places, read_tube_stations,
-        read_word_frequencies, read_words, save_word_frequencies,
+        load_word_frequencies, read_counties, read_percentile_common_words, read_places, read_tube_stations, read_word_frequencies, read_words, save_word_frequencies
     },
     examples::maximally_anagrammed_by_length,
     utils::{lex_order, reverse},
@@ -30,6 +29,8 @@ fn main() {
     // println!("{:?}", &tubes[..10]);
     // println!("{:?}", &places[..10]);
     // println!("{:?}", &counties[..10]);
-
-    maximally_anagrammed_by_length();
+    
+    // let words = read_words();
+    let words = read_percentile_common_words(0.1);
+    maximally_anagrammed_by_length(words);
 }

@@ -1,5 +1,5 @@
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     fs::{self, File},
     io::Write,
 };
@@ -50,6 +50,23 @@ pub fn read_word_frequencies() -> HashMap<String, u64> {
         }
     }
     wfs
+}
+
+pub fn read_percentile_common_words(percentile: f64) -> Vec<String> {
+    // Take all words that appear with frequency at least percentile within words of their length.
+    let wfs= read_word_frequencies();
+    // Split by length of word
+    let lengths = wfs.iter().map(|(w, _f)| w.len()).collect::<HashSet<_>>().into_iter();
+    let mut percentile_common_words: Vec<String> = Vec::new();
+    for length in lengths {
+        let mut wfs_by_l: Vec<_> = wfs.iter().filter(|&(w, _f)| w.len() == length).collect();
+        wfs_by_l.sort_by(|wf1, wf2| wf2.1.cmp(wf1.1));
+        let num_words = ((wfs_by_l.len() as f64)*percentile).floor() as usize;
+        for &wf in &wfs_by_l[..num_words]{
+            percentile_common_words.push(wf.0.to_string())
+        }
+    }
+    percentile_common_words
 }
 
 fn preprocess_word_frequencies_db() -> HashMap<String, HashMap<String, u64>> {
