@@ -6,14 +6,8 @@ use crate::{
     wordplay::find_anagrams,
 };
 
-fn _palin_rev() {
-    let words = read_words();
+pub fn find_reversibles(words: Vec<String>) {
     let words_set: HashSet<&String> = words.iter().collect();
-    let mut palindromes = words
-        .iter()
-        .filter(|&s| reverse(s) == *s)
-        .collect::<Vec<&String>>();
-    palindromes.sort_by(|a, b| b.len().cmp(&a.len()));
 
     let mut reversibles = words
         .iter()
@@ -28,11 +22,24 @@ fn _palin_rev() {
     }
 }
 
-fn _decomps() {
-    let words = read_words();
+pub fn find_palindromes(words: Vec<String>) {
+    let words_set: HashSet<&String> = words.iter().collect();
+    let mut palindromes = words
+        .iter()
+        .filter(|&s| reverse(s) == *s)
+        .collect::<Vec<&String>>();
+    palindromes.sort_by(|a, b| b.len().cmp(&a.len()));
+
+    for word in palindromes.iter().take(100) {
+        println!("{} {}", word, reverse(word));
+    }
+}
+
+pub fn longest_word_decompositions(words: Vec<String>, min_l: usize) {
+    // Find word decompositions, print the longest ones
     let words_set: HashSet<&String> = words.iter().collect();
 
-    let is_word = |s: &str| words_set.contains(&s.to_string()) && (s.len() > 4);
+    let is_word = |s: &str| words_set.contains(&s.to_string()) && (s.len() > min_l);
 
     let mut decomp_words = words
         .iter()
