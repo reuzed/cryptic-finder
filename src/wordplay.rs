@@ -1,5 +1,5 @@
 // Find wordplay instances from a given dataset
-// Have a set off target words, use some large source of words to find wordplay.
+// Have a set of target words, use some large source of words to find wordplay.
 // Return structs with cerificates of the wordplay
 
 use std::collections::{HashMap, HashSet};
@@ -68,4 +68,46 @@ pub fn find_anagrams(targets: &Vec<String>, words: &Vec<String>) -> Vec<Anagram>
         .into_iter()
         .filter(|a| a.anagrams.len() > 1)
         .collect()
+}
+
+pub struct Concatenation {
+    target: String,
+    decompositions: Vec<Vec<String>>,
+}
+
+pub fn find_concatenations(targets: &Vec<String>, words: &Vec<String>) -> Vec<Concatenation>{
+    // Find all instances of wordplay of the form w = v | u
+    vec![]
+} 
+
+pub fn find_multiple_concatenations(targets: &Vec<String>, words: &Vec<String>) -> Vec<Concatenation>{
+    // Find all instances of wordplay of the form w = v_1 | v_2 | ... v_k
+    vec![]
+}
+
+pub struct Insertion {
+    target: String
+
+}
+
+pub fn find_insertions(targets: &Vec<String>, words: &Vec<String>) -> Vec<Insertion> {
+    // 
+    // What data do we need for an insertion?
+    // Do O(n^2) sliding window to find substrings that are words, remove and check remainder for word.
+    vec![]
+}
+
+pub fn find_multiple_insertions(targets: &Vec<String>, words: &Vec<String>) -> Vec<Insertion> {
+    // 
+    // What data do we need for an insertion?
+    // Do O(n^2) sliding window to find substrings that are words, remove and check remainder for word.
+    vec![]
+}
+
+pub fn find_double_meanings(words: &Vec<String>){
+    // Let ~ denote the synonym relation
+    // Search for instances of failure of transitivity of ~
+    // I.e. we want u ~ v ~ w but u \not ~ w
+    // Among these, select examples with the smallest semantic similarity (embedding CS)
+
 }

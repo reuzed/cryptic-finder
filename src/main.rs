@@ -17,12 +17,6 @@ use cryptic_finder::{
 // - tube stations
 
 fn main() {
-    // let wfs = read_word_frequencies();
-    // println!("wfs: {:?}", wfs)
-    // let wfs = load_word_frequencies();
-
-    // save_word_frequencies();
-
     // let tubes = read_tube_stations();
     // let places = read_places();
     // let counties = read_counties();
@@ -32,5 +26,5 @@ fn main() {
     
     // let words = read_words();
     let words = read_percentile_common_words(0.1);
-    maximally_anagrammed_by_length(words);
+    maximally_anagrammed_by_length(&words);
 }

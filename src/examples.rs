@@ -6,7 +6,7 @@ use crate::{
     wordplay::find_anagrams,
 };
 
-pub fn find_reversibles(words: Vec<String>) {
+pub fn find_reversibles(words: &Vec<String>) -> Vec<String> {
     let words_set: HashSet<&String> = words.iter().collect();
 
     let mut reversibles = words
@@ -14,28 +14,31 @@ pub fn find_reversibles(words: Vec<String>) {
         .filter(|&s| words_set.contains(&reverse(s)))
         .filter(|&s| lex_order(s, &reverse(s)))
         .filter(|&s| reverse(s) != *s)
-        .collect::<Vec<&String>>();
+        .map(|s|s.to_string())
+        .collect::<Vec<String>>();
     reversibles.sort_by(|a, b| b.len().cmp(&a.len()));
 
     for word in reversibles.iter().take(100) {
         println!("{} {}", word, reverse(word));
     }
+    reversibles
 }
 
-pub fn find_palindromes(words: Vec<String>) {
-    let words_set: HashSet<&String> = words.iter().collect();
+pub fn find_palindromes(words: &Vec<String>) -> Vec<String>{
     let mut palindromes = words
         .iter()
         .filter(|&s| reverse(s) == *s)
-        .collect::<Vec<&String>>();
+        .map(|s | s.to_string())
+        .collect::<Vec<String>>();
     palindromes.sort_by(|a, b| b.len().cmp(&a.len()));
 
     for word in palindromes.iter().take(100) {
         println!("{} {}", word, reverse(word));
     }
+    palindromes
 }
 
-pub fn longest_word_decompositions(words: Vec<String>, min_l: usize) {
+pub fn longest_word_decompositions(words: &Vec<String>, min_l: usize) {
     // Find word decompositions, print the longest ones
     let words_set: HashSet<&String> = words.iter().collect();
 
@@ -56,7 +59,7 @@ pub fn longest_word_decompositions(words: Vec<String>, min_l: usize) {
     }
 }
 
-pub fn maximally_anagrammed_by_length(words: Vec<String>) {
+pub fn maximally_anagrammed_by_length(words: &Vec<String>) {
     // Find the words which have most anagrams of each length
     let anagrams = find_anagrams(&words, &words);
     let lengths: HashSet<usize> = anagrams
