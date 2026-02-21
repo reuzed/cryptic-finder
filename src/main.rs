@@ -25,6 +25,6 @@ fn main() {
     // println!("{:?}", &counties[..10]);
     
     // let words = read_words();
-    let words = read_percentile_common_words(0.1);
+    let words = read_percentile_common_words(0.3);
     maximally_anagrammed_by_length(&words);
 }

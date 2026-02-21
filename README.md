@@ -12,7 +12,9 @@ Several datasets of words are available, which are prefiltered searched and rank
 
 ## Prefiltering
 
--
+- Filter by length or vowel contents etc.
+- Filter by common usage words
+- Some suffix handling stuff
 
 ## Wordplay Algorithms
 
@@ -20,4 +22,6 @@ Several datasets of words are available, which are prefiltered searched and rank
 
 ## Ranking
 
--
+- By length
+- By scrabble score
+- Semantic ranking
